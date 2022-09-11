@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CartController;
+use Darryldecode\Cart\CartCondition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,5 +25,6 @@ Route::middleware([
         return $request->user();
     });
 
+    Route::get('products/count', [CartController::class, 'count'])->name('products.count');
     Route::apiResource('products', CartController::class);
 });

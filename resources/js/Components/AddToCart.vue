@@ -7,14 +7,17 @@ defineProps({
   productId: Number,
 });
 
+const emit = defineEmits(["cartCountUpdated"]);
+
 const { add } = useProduct();
 
-const addtoCart = async (productId) => {
+const addToCart = async (productId) => {
   await axios.get("/sanctum/csrf-cookie");
   await axios
     .get("/api/user")
     .then(async (result) => {
-      await add(productId);
+      let cartCount = await add(productId);
+      emit("cartCountUpdated", cartCount);
     })
     .catch((err) => {});
 };
@@ -22,6 +25,6 @@ const addtoCart = async (productId) => {
 
 <template>
   <div class="flex items-center justify-between py-4">
-    <JetButton @click="addtoCart(productId)"> Ajouter au panier </JetButton>
+    <JetButton @click="addToCart(productId)"> Ajouter au panier </JetButton>
   </div>
 </template>
