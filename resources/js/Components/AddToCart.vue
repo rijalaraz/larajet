@@ -2,6 +2,7 @@
 import JetButton from "@/Components/Button.vue";
 import axios from "axios";
 import useProduct from "../composables/products";
+import { createToaster } from "@meforma/vue-toaster";
 
 defineProps({
   productId: Number,
@@ -11,6 +12,8 @@ const emit = defineEmits(["cartCountUpdated"]);
 
 const { add } = useProduct();
 
+const toaster = createToaster();
+
 const addToCart = async (productId) => {
   await axios.get("/sanctum/csrf-cookie");
   await axios
@@ -18,6 +21,7 @@ const addToCart = async (productId) => {
     .then(async (result) => {
       let cartCount = await add(productId);
       emit("cartCountUpdated", cartCount);
+      toaster.success("Produit ajouté au panier");
     })
     .catch((err) => {});
 };
