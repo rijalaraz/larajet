@@ -22,11 +22,29 @@ export default function useProduct() {
         return response.data.count;
     }
 
+    const increaseQuantity = async(id) => {
+        await axios.post(route('product.increase', id));
+        await getProducts();
+    }
+
+    const decreaseQuantity = async(id) => {
+        await axios.post(route('product.decrease', id));
+        await getProducts();
+    }
+
+    const destroyProduct = async(id) => {
+        await axios.delete(route('products.destroy', id));
+        await getProducts();
+    }
+
     return {
         add,
         getCount,
         products,
         getProducts,
+        increaseQuantity,
+        decreaseQuantity,
+        destroyProduct,
     }
 }
 

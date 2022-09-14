@@ -27,4 +27,7 @@ Route::middleware([
 
     Route::get('products/count', [CartController::class, 'count'])->name('products.count');
     Route::apiResource('products', CartController::class);
+
+    Route::post('products/{id}/increase', [CartController::class, 'increase'])->name('product.increase');
+    Route::post('products/{id}/decrease', [CartController::class, 'decrease'])->name('product.decrease');
 });

@@ -2,12 +2,38 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import JetButton from "@/Components/Button.vue";
 import useProduct from "../composables/products";
-import { onMounted, ref } from "vue";
+import { onMounted, computed } from "vue";
 import useUtils from "../helpers";
 
-const { products, getProducts } = useProduct();
+const {
+  products,
+  getProducts,
+  increaseQuantity,
+  decreaseQuantity,
+  destroyProduct,
+} = useProduct();
+
+const cartTotal = computed(() => {
+  let price = Object.values(products.value).reduce(
+    (acc, product) => (acc += product.price * product.quantity),
+    0
+  );
+  return formatMoney(price / 100, "fr-FR", "EUR");
+});
 
 const { formatMoney } = useUtils();
+
+const increase = async (id) => {
+  await increaseQuantity(id);
+};
+
+const decrease = async (id) => {
+  await decreaseQuantity(id);
+};
+
+const destroy = async (id) => {
+  await destroyProduct(id);
+};
 
 onMounted(async () => {
   await getProducts();
@@ -70,7 +96,13 @@ onMounted(async () => {
                           </div>
                         </td>
                         <td class="p-2">
-                          <div class="text-left">{{ product.quantity }}</div>
+                          <div class="flex flex-row">
+                            <button @click="decrease(product.id)">-</button>
+                            <div class="mx-3 bg-gray-200 w-5 text-center">
+                              {{ product.quantity }}
+                            </div>
+                            <button @click="increase(product.id)">+</button>
+                          </div>
                         </td>
                         <td class="p-2">
                           <div class="text-left">
@@ -90,7 +122,10 @@ onMounted(async () => {
                         </td>
                         <td class="p-2">
                           <div class="flex justify-center">
-                            <button title="Supprimer le produit">
+                            <button
+                              title="Supprimer le produit"
+                              @click="destroy(product.id)"
+                            >
                               <svg
                                 class="w-8 h-8 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1"
                                 fill="none"
@@ -120,7 +155,7 @@ onMounted(async () => {
               >
                 <div>Total</div>
                 <div class="text-blue-600">
-                  RM <span x-text="total.toFixed(2)"></span>
+                  {{ cartTotal }}
                 </div>
               </div>
 
