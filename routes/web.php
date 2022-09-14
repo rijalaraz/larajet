@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShoppingCartController;
 use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -37,4 +38,7 @@ Route::middleware([
 
     Route::get('/products', [ProductController::class, 'index'])
         ->name('product.index');
+
+    Route::get('/shoppingCart', ShoppingCartController::class)
+        ->name('cart.index');
 });

@@ -67,6 +67,12 @@ const logout = () => {
                 >
                   Products
                 </JetNavLink>
+                <JetNavLink
+                  :href="route('cart.index')"
+                  :active="route().current('cart.index')"
+                >
+                  Shopping Cart
+                </JetNavLink>
               </div>
             </div>
 

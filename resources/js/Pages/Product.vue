@@ -2,7 +2,7 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ref } from "vue";
 import AddToCart from "../Components/AddToCart.vue";
-import useUtils from "../utils";
+import useUtils from "../helpers";
 
 defineProps({
   products: Object,
@@ -20,7 +20,7 @@ const { formatMoney } = useUtils();
 <template>
   <AppLayout title="Products" :count-cart="countCart">
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">Products</h2>
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight">Vos produits</h2>
     </template>
 
     <div class="py-12">
@@ -28,7 +28,7 @@ const { formatMoney } = useUtils();
         <!-- component -->
         <div tabindex="0" class="focus:outline-none">
           <!-- Remove py-8 -->
-          <div class="mx-auto container py-8">
+          <div class="mx-auto container">
             <div class="grid grid-cols-4">
               <!-- Card 1 -->
               <div
