@@ -1,18 +1,8 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import useProduct from "../composables/products";
 import { Link } from "@inertiajs/inertia-vue3";
 
-defineProps({
+const props = defineProps({
   count: Number,
-});
-
-const { getCount } = useProduct();
-
-const cartCount = ref(0);
-
-onMounted(async () => {
-  cartCount.value = await getCount();
 });
 </script>
 
@@ -21,7 +11,7 @@ onMounted(async () => {
     <Link :href="route('cart.index')">
       <span
         class="absolute right-8 rounded-full bg-indigo-700 w-5 h-5 text-xs text-white flex items-center justify-center"
-        >{{ count ? count : cartCount }}</span
+        >{{ count }}</span
       >
       <svg
         xmlns="http://www.w3.org/2000/svg"

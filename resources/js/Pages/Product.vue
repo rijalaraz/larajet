@@ -1,24 +1,29 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { ref } from "vue";
+import { onMounted } from "vue";
 import AddToCart from "../Components/AddToCart.vue";
+import useProduct from "../composables/products";
 import useUtils from "../helpers";
 
 defineProps({
   products: Object,
 });
 
-const countCart = ref(0);
+const { cartCount, getCount } = useProduct();
 
-const updateCartCount = (cartCount) => {
-  countCart.value = cartCount;
+const updateCartCount = async () => {
+  await getCount();
 };
 
 const { formatMoney } = useUtils();
+
+onMounted(async () => {
+  await getCount();
+});
 </script>
 
 <template>
-  <AppLayout title="Products" :count-cart="countCart">
+  <AppLayout title="Products" :count-cart="cartCount">
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">Vos produits</h2>
     </template>

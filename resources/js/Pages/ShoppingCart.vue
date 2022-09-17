@@ -42,6 +42,7 @@ const destroy = async (id) => {
 
 onMounted(async () => {
   await getProducts();
+  await getCount();
 });
 </script>
 
