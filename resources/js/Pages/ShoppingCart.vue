@@ -11,6 +11,8 @@ const {
   increaseQuantity,
   decreaseQuantity,
   destroyProduct,
+  cartCount,
+  getCount,
 } = useProduct();
 
 const cartTotal = computed(() => {
@@ -25,14 +27,17 @@ const { formatMoney } = useUtils();
 
 const increase = async (id) => {
   await increaseQuantity(id);
+  await getCount();
 };
 
 const decrease = async (id) => {
   await decreaseQuantity(id);
+  await getCount();
 };
 
 const destroy = async (id) => {
   await destroyProduct(id);
+  await getCount();
 };
 
 onMounted(async () => {
@@ -41,7 +46,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <AppLayout title="Recaps">
+  <AppLayout title="Recaps" :count-cart="cartCount">
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         Récapitulatif de votre panier
