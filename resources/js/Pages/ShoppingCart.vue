@@ -4,6 +4,7 @@ import JetButton from "@/Components/Button.vue";
 import useProduct from "../composables/products";
 import { onMounted, computed } from "vue";
 import useUtils from "../helpers";
+import { Link } from "@inertiajs/inertia-vue3";
 
 const {
   products,
@@ -166,7 +167,7 @@ onMounted(async () => {
               </div>
 
               <div class="flex items-center justify-end py-4 px-4">
-                <JetButton @click=""> Proceed to checkout </JetButton>
+                <JetButton><Link :href="route('checkout.create')">Proceed to checkout</Link></JetButton>
               </div>
 
               <div class="flex justify-end">

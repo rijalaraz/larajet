@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import useProduct from '../composables/products';
 import useStripe from '../composables/stripe';
 import { createToaster } from "@meforma/vue-toaster";
+import Timer from '@meforma/vue-toaster/src/helpers/timer';
 
 const {
     initialize
@@ -21,7 +22,10 @@ onMounted(async () => {
     emit("cartCountUpdated");
     await getCount();
     if(cartCount.value == 0) {
-      toaster.error("Vous devez ajouter un produit dans panier");
+      toaster.error("Vous devez ajouter un produit dans le panier");
+      new Timer(() => {
+        location.href = route('product.index');
+      }, 2000);
       return false;
     }
     await initialize();
