@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShoppingCartController;
+use App\Http\Controllers\StripeCheckoutController;
 use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -41,4 +42,6 @@ Route::middleware([
 
     Route::get('/shoppingCart', ShoppingCartController::class)
         ->name('cart.index');
+
+    Route::get('/checkout', [StripeCheckoutController::class, 'create'])->name('checkout.create');
 });

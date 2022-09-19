@@ -62,4 +62,23 @@ class CartRepository
             'quantity' => -1
         ]);
     }
+
+    public function total()
+    {
+        return CartFacade::session($this->userId)->getTotal();
+    }
+
+    public function jsonOrderItems()
+    {
+        return $this
+            ->content()
+            ->map(function($item) {
+                return [
+                    'name' => $item->name,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price,
+                ];
+            })
+            ->toJson();
+    }
 }
