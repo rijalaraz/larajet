@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StripeCheckoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,4 +33,6 @@ Route::middleware([
     Route::post('products/{id}/decrease', [CartController::class, 'decrease'])->name('product.decrease');
 
     Route::post('/paymentIntent', [StripeCheckoutController::class, 'paymentIntent'])->name('payment.intent');
+
+    Route::post('/saveOrder', OrderController::class)->name('orders.save');
 });

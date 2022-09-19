@@ -81,4 +81,9 @@ class CartRepository
             })
             ->toJson();
     }
+
+    public function clear()
+    {
+        CartFacade::session($this->userId)->clear();
+    }
 }

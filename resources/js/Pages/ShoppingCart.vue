@@ -3,8 +3,8 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import JetButton from "@/Components/Button.vue";
 import useProduct from "../composables/products";
 import { onMounted, computed } from "vue";
-import useUtils from "../helpers";
 import { Link } from "@inertiajs/inertia-vue3";
+import useHelpers from "../helpers";
 
 const {
   products,
@@ -24,7 +24,7 @@ const cartTotal = computed(() => {
   return formatMoney(price / 100, "fr-FR", "EUR");
 });
 
-const { formatMoney } = useUtils();
+const { formatMoney } = useHelpers();
 
 const increase = async (id) => {
   await increaseQuantity(id);

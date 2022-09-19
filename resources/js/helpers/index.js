@@ -1,4 +1,6 @@
-export default function useUtils() {
+import axios from "axios";
+
+export default function useHelpers() {
 
     /////////////////////////////////////////////////////////////////////
     // Format money based on integer or floating input
@@ -62,8 +64,12 @@ export default function useUtils() {
         return ret;
     }
 
-    return {
-        formatMoney
+    const saveOrder = () => {
+        axios.post(route('orders.save'));
     }
 
+    return {
+        formatMoney,
+        saveOrder,
+    }
 }

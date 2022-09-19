@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\StripeCheckoutController;
-use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -44,4 +44,6 @@ Route::middleware([
         ->name('cart.index');
 
     Route::get('/checkout', [StripeCheckoutController::class, 'create'])->name('checkout.create');
+
+    Route::get('/merci', fn() => 'Merci pour votre commande')->name('order.merci');
 });

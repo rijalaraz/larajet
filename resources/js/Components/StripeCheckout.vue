@@ -6,7 +6,9 @@ import { createToaster } from "@meforma/vue-toaster";
 import Timer from '@meforma/vue-toaster/src/helpers/timer';
 
 const {
-    initialize
+    initialize,
+    checkStatus,
+    handleSubmit,
 } = useStripe();
 
 const {
@@ -28,6 +30,7 @@ onMounted(async () => {
       }, 2000);
       return false;
     }
+    await checkStatus();
     await initialize();
 })
 </script>
@@ -37,7 +40,7 @@ onMounted(async () => {
       <div id="payment-element">
         <!--Stripe.js injects the Payment Element-->
       </div>
-      <button id="submit">
+      <button id="submit" @click="handleSubmit">
         <div class="spinner hidden" id="spinner"></div>
         <span id="button-text">Pay now</span>
       </button>

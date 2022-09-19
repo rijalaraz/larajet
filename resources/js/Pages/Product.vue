@@ -3,7 +3,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import { onMounted } from "vue";
 import AddToCart from "../Components/AddToCart.vue";
 import useProduct from "../composables/products";
-import useUtils from "../helpers";
+import useHelpers from "../helpers";
 
 defineProps({
   products: Object,
@@ -15,7 +15,7 @@ const updateCartCount = async () => {
   await getCount();
 };
 
-const { formatMoney } = useUtils();
+const { formatMoney } = useHelpers();
 
 onMounted(async () => {
   await getCount();
