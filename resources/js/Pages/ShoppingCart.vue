@@ -21,7 +21,7 @@ const cartTotal = computed(() => {
     (acc, product) => (acc += product.price * product.quantity),
     0
   );
-  return formatMoney(price / 100, "fr-FR", "EUR");
+  return formatMoney(price / 100);
 });
 
 const { formatMoney } = useHelpers();
@@ -113,16 +113,14 @@ onMounted(async () => {
                         </td>
                         <td class="p-2">
                           <div class="text-left">
-                            {{ formatMoney(product.price / 100, "fr-FR", "EUR") }}
+                            {{ formatMoney(product.price / 100) }}
                           </div>
                         </td>
                         <td class="p-2">
                           <div class="text-left font-medium text-green-500">
                             {{
                               formatMoney(
-                                (product.price * product.quantity) / 100,
-                                "fr-FR",
-                                "EUR"
+                                (product.price * product.quantity) / 100
                               )
                             }}
                           </div>

@@ -73,7 +73,7 @@ onMounted(async () => {
                     </div>
                     <div class="bg-yellow-200 py-1.5 px-6 rounded-full">
                       <p tabindex="0" class="focus:outline-none text-xs text-yellow-700">
-                        {{ formatMoney(product.price / 100, "fr-FR", "EUR") }}
+                        {{ formatMoney(product.price / 100) }}
                       </p>
                     </div>
                   </div>

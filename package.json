@@ -15,13 +15,13 @@
         "axios": "^0.27",
         "laravel-vite-plugin": "^0.5.0",
         "lodash": "^4.17.19",
+        "moment": "^2.29.4",
         "postcss": "^8.4.14",
         "tailwindcss": "^3.1.0",
         "vite": "^3.0.0",
         "vue": "^3.2.31"
     },
     "dependencies": {
-        "@meforma/vue-toaster": "^1.3.0",
-        "tiny-emitter": "^2.1.0"
+        "@meforma/vue-toaster": "^1.3.0"
     }
 }

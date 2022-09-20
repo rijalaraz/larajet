@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from 'moment';
 
 export default function useHelpers() {
 
@@ -18,8 +19,8 @@ export default function useHelpers() {
     /////////////////////////////////////////////////////////////////////
     const formatMoney = (
         value,
-        locale,
-        currencyCode,
+        locale = "fr-FR",
+        currencyCode = "EUR",
         subunitsValue,
         subunitsToUnit,
         hideSubunits,
@@ -64,12 +65,17 @@ export default function useHelpers() {
         return ret;
     }
 
+    const formatDate = (sDate, sFormat = 'DD/MM/YYYY HH:mm') => {
+        return moment(sDate).format(sFormat);
+    }
+
     const saveOrder = () => {
         axios.post(route('orders.save'));
     }
 
     return {
         formatMoney,
+        formatDate,
         saveOrder,
     }
 }
