@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Repositories\CartRepository;
 use App\Models\User;
+use Inertia\Inertia;
 
 class OrderController extends Controller
 {
@@ -27,5 +28,15 @@ class OrderController extends Controller
             });
 
         (new CartRepository())->clear();
+    }
+
+    public function list()
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        return Inertia::render('Dashboard', [
+            'orders' => $user->orders()->with('products')->get(),
+        ]);
     }
 }

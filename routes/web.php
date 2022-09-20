@@ -33,15 +33,11 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [OrderController::class, 'list'])->name('dashboard');
 
-    Route::get('/products', ProductController::class)
-        ->name('product.index');
+    Route::get('/products', ProductController::class)->name('product.index');
 
-    Route::get('/shoppingCart', ShoppingCartController::class)
-        ->name('cart.index');
+    Route::get('/shoppingCart', ShoppingCartController::class)->name('cart.index');
 
     Route::get('/checkout', [StripeCheckoutController::class, 'create'])->name('checkout.create');
 

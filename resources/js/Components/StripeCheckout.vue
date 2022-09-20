@@ -21,6 +21,10 @@ const toaster = createToaster();
 const emit = defineEmits(["cartCountUpdated"]);
 
 onMounted(async () => {
+    let stripeScript = document.createElement('script');
+    stripeScript.setAttribute('src', 'https://js.stripe.com/v3/');
+    document.head.appendChild(stripeScript);
+
     emit("cartCountUpdated");
     await getCount();
     if(cartCount.value == 0) {
@@ -30,8 +34,8 @@ onMounted(async () => {
       }, 2000);
       return false;
     }
-    await checkStatus();
     await initialize();
+    await checkStatus();
 })
 </script>
 <template>
