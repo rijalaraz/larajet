@@ -28,7 +28,7 @@ const addToCart = async (productId) => {
 </script>
 
 <template>
-  <div class="flex items-center justify-between py-4">
+  <div class="flex items-center justify-between py-2 mx-auto">
     <JetButton @click="addToCart(productId)"> Ajouter au panier </JetButton>
   </div>
 </template>

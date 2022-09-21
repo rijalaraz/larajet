@@ -33,7 +33,7 @@ onMounted(async () => {
                 <div>
                     <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 overflow-x-auto">
                         <div v-for="order in orders" class="inline-block min-w-full shadow rounded-lg overflow-hidden bg-gray-200 mb-2">
-                            <h2 class="font-semibold flex justify-center">Commande n° {{ order?.order_number }} passée le {{ formatDate(order?.created_at) }}</h2>
+                            <h2 class="font-semibold text-lg flex justify-center">Commande n° {{ order?.order_number }} passée le {{ formatDate(order?.created_at) }}</h2>
                             <table class="min-w-full leading-normal">
                                 <thead>
                                     <tr>

@@ -39,7 +39,7 @@ onMounted(async () => {
               <div
                 v-for="product in products"
                 tabindex="0"
-                class="focus:outline-none mx-2 w-72 xl:mb-0 mb-8"
+                class="focus:outline-none mx-2 w-72 xl:mb-0 pb-10"
               >
                 <div>
                   <img
@@ -49,7 +49,7 @@ onMounted(async () => {
                     class="focus:outline-none w-full h-44"
                   />
                 </div>
-                <div class="bg-white">
+                <div class="bg-white border h-3/6">
                   <div class="flex items-center justify-between px-4 pt-4">
                     <div>
                       <svg
@@ -86,15 +86,15 @@ onMounted(async () => {
                     <p tabindex="0" class="focus:outline-none text-xs text-gray-600 mt-2">
                       {{ product.description }}
                     </p>
-
-                    <AddToCart
-                      :product-id="product.id"
-                      @cartCountUpdated="updateCartCount"
-                    />
                   </div>
                 </div>
+                <div class="flex items-center">
+                  <AddToCart
+                    :product-id="product.id"
+                    @cartCountUpdated="updateCartCount"
+                  />
+                </div>
               </div>
-              <!-- Card 1 Ends -->
             </div>
           </div>
           <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->

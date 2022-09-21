@@ -59,7 +59,7 @@ export default function useStripe() {
 
         setTimeout(function () {
           messageContainer.classList.add("hidden");
-          // messageText.textContent = "";
+          messageContainer.textContent = "";
         }, 4000);
     }
 
@@ -84,7 +84,7 @@ export default function useStripe() {
             elements: elements.value,
             confirmParams: {
                 // Make sure to change this to your payment completion page
-                return_url: route('checkout.create'),
+                return_url: route('order.merci'),
             },
         });
 
