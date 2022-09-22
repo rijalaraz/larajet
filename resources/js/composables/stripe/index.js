@@ -37,7 +37,7 @@ export default function useStripe() {
         switch (paymentIntent.status) {
             case "succeeded":
                 showMessage("Payment succeeded!");
-                await saveOrder();
+                // await saveOrder();
                 break;
             case "processing":
                 showMessage("Your payment is processing.");
@@ -84,7 +84,7 @@ export default function useStripe() {
             elements: elements.value,
             confirmParams: {
                 // Make sure to change this to your payment completion page
-                return_url: route('checkout.create'),
+                return_url: route('order.merci'),
             },
         });
 

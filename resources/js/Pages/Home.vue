@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/inertia-vue3';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 
 defineProps({
     canLogin: Boolean,
@@ -10,7 +11,11 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Welcome" />
+    <Head title="Home" />
+
+    <Link :href="route('home')" title="Home" class="flex justify-center h-16 pl-3 sm:justify-start sm:py-2 sm:h-12">
+        <ApplicationLogo />
+    </Link>
 
     <div class="relative flex items-start justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
         <div v-if="canLogin" class="hidden fixed top-0 right-0 px-6 py-4 sm:block">

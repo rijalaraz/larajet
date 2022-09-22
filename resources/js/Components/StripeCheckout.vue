@@ -35,7 +35,6 @@ onMounted(async () => {
       return false;
     }
     await initialize();
-    await checkStatus();
 })
 </script>
 <template>
