@@ -9,10 +9,14 @@ class CartRepository
 {
     private $userId;
 
-    public function __construct()
+    public function __construct($userId = null)
     {
         // the user ID to bind the cart contents or any string representing user identifier
-        $this->userId = auth()->user()->id;
+        if ($userId) {
+            $this->userId = $userId;
+        } else {
+            $this->userId = auth()->user()->id;
+        }
     }
 
     public function add(Product $product) {

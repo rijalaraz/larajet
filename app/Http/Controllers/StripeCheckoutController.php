@@ -52,17 +52,16 @@ class StripeCheckoutController extends Controller
                 'payment_status' => Payment::STATUS_WAITING,
             ]);
 
+            /*
             (new CartRepository())
                 ->content()
                 ->each(function($product) use($order) {
-                    /** @var Order $order */
                     $order->products()->attach($product->id, [
                         'total_price' => $product->price * $product->quantity,
                         'total_quantity' => $product->quantity,
                     ]);
                 });
-
-            (new CartRepository())->clear();
+            */
 
             $output = [
                 'clientSecret' => $paymentIntent->client_secret,

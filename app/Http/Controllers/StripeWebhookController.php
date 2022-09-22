@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Repositories\CartRepository;
+use App\Models\Order;
+use App\Models\User;
 
 class StripeWebhookController extends Controller
 {
@@ -47,14 +50,30 @@ class StripeWebhookController extends Controller
 
                 $paymentIntent = $event->data->object;
 
+                /** @var Payment $payment */
                 $payment = Payment::where('payment_intent', $paymentIntent->id)->first();
 
                 if($payment) {
-                    $payment = Payment::updateOrCreate([
+                    Payment::updateOrCreate([
                         'id' => $payment->id,
                     ], [
                         'payment_status' => Payment::STATUS_PAID,
                     ]);
+
+                    /** @var Order $order */
+                    $order = $payment->order()->get()->first();
+
+                    /** @var User $user */
+                    $user = $order->user()->get()->first();
+
+                    foreach ((new CartRepository($user->id))->content() as $product) {
+                        $order->products()->attach($product->id, [
+                            'total_price' => $product->price * $product->quantity,
+                            'total_quantity' => $product->quantity,
+                        ]);
+                    }
+
+                    (new CartRepository($user->id))->clear();
 
                     $message = "Le paiement est terminé";
                     return new Response($message, 200, []);
