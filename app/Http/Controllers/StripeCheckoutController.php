@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Payment;
 use App\Repositories\CartRepository;
 use Inertia\Inertia;
+use App\Models\User;
 
 class StripeCheckoutController extends Controller
 {
@@ -33,6 +36,34 @@ class StripeCheckoutController extends Controller
                     'order_items' => (new CartRepository())->jsonOrderItems()
                 ],
             ]);
+
+            /** @var User $user */
+            $user = auth()->user();
+
+            $order = $user->orders()->create([
+                'order_number' => uniqid()
+            ]);
+
+            /** @var Order $order */
+            $payment = $order->payment()->create([
+                'user_id' => $user->id,
+                'amount' =>  $cartTotal,
+                'currency' => 'eur',
+                'payment_intent' => $paymentIntent->client_secret,
+                'payment_status' => Payment::STATUS_WAITING,
+            ]);
+
+            (new CartRepository())
+                ->content()
+                ->each(function($product) use($order) {
+                    /** @var Order $order */
+                    $order->products()->attach($product->id, [
+                        'total_price' => $product->price * $product->quantity,
+                        'total_quantity' => $product->quantity,
+                    ]);
+                });
+
+            (new CartRepository())->clear();
 
             $output = [
                 'clientSecret' => $paymentIntent->client_secret,

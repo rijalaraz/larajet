@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StripeCheckoutController;
+use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('/stripe_webhook', StripeWebhookController::class)->name('stripe.webhook');
+
 
 Route::middleware([
     'auth:sanctum',
