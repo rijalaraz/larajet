@@ -1,13 +1,10 @@
 import axios from "axios";
 import { ref } from "vue";
-import useHelpers from "../../helpers";
 
 export default function useStripe() {
 
     const elements = ref(null);
     const stripe = ref(null);
-
-    const { saveOrder } = useHelpers();
 
     const initialize = async() => {
          // This is your test publishable API key.
@@ -37,7 +34,6 @@ export default function useStripe() {
         switch (paymentIntent.status) {
             case "succeeded":
                 showMessage("Payment succeeded!");
-                // await saveOrder();
                 break;
             case "processing":
                 showMessage("Your payment is processing.");

@@ -60,6 +60,11 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
