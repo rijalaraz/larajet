@@ -46,7 +46,6 @@ class StripeCheckoutController extends Controller
 
             /** @var Order $order */
             $payment = $order->payment()->create([
-                'user_id' => $user->id,
                 'amount' =>  $cartTotal,
                 'currency' => 'eur',
                 'payment_intent' => $paymentIntent->client_secret,
