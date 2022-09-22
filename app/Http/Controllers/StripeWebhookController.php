@@ -13,29 +13,19 @@ class StripeWebhookController extends Controller
 {
     public function __invoke()
     {
-        \Stripe\Stripe::setApiKey(config('stripe.test_secret_key'));
-
         // If you are testing your webhook locally with the Stripe CLI you
         // can find the endpoint's secret by running `stripe listen`
         // Otherwise, find your endpoint's secret in your webhook settings in the Developer Dashboard
         $endpoint_secret = config('stripe.test_endpoint_secret');
 
         $payload = @file_get_contents('php://input');
-        if(!empty($_SERVER['HTTP_STRIPE_SIGNATURE'])) {
-            $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
-        }
+        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $event = null;
 
         try {
-            if(!empty($endpoint_secret) && !empty($sig_header)) {
-                $event = \Stripe\Webhook::constructEvent(
-                    $payload, $sig_header, $endpoint_secret
-                );
-            } else {
-                $event = \Stripe\Event::constructFrom(
-                    json_decode($payload, true)
-                );
-            }
+            $event = \Stripe\Webhook::constructEvent(
+                $payload, $sig_header, $endpoint_secret
+            );
         } catch(\UnexpectedValueException $e) {
             // Invalid payload
             return new Response('Invalid payload', 400, []);
@@ -50,37 +40,13 @@ class StripeWebhookController extends Controller
 
                 $paymentIntent = $event->data->object;
 
-                /** @var Payment $payment */
-                $payment = Payment::where('payment_intent', $paymentIntent->id)->first();
+                Payment::where('payment_intent', $paymentIntent->id)->update([
+                    'payment_status' => Payment::STATUS_PAID,
+                    'payment_error' => null,
+                ]);
 
-                if($payment) {
-                    Payment::updateOrCreate([
-                        'id' => $payment->id,
-                    ], [
-                        'payment_status' => Payment::STATUS_PAID,
-                    ]);
-
-                    /** @var Order $order */
-                    $order = $payment->order()->get()->first();
-
-                    /** @var User $user */
-                    $user = $order->user()->get()->first();
-
-                    foreach ((new CartRepository($user->id))->content() as $product) {
-                        $order->products()->attach($product->id, [
-                            'total_price' => $product->price * $product->quantity,
-                            'total_quantity' => $product->quantity,
-                        ]);
-                    }
-
-                    (new CartRepository($user->id))->clear();
-
-                    $message = "Le paiement est terminé";
-                    return new Response($message, 200, []);
-                } else {
-                    $message = "Aucune tentative de paiement n'a été faite";
-                    return new Response($message, 400, []);
-                }
+                $message = "Le paiement est terminé";
+                return new Response($message, 200, []);
 
                 break;
 
@@ -88,24 +54,18 @@ class StripeWebhookController extends Controller
 
                 $paymentIntent = $event->data->object;
 
-                $payment = Payment::where('payment_intent', $paymentIntent->id)->first();
+                $message = $paymentIntent->last_payment_error->message;
 
-                if($payment) {
-                    // See https://stripe.com/docs/error-codes
-                    if($paymentIntent->last_payment_error->code === 'card_declined') {
-                        // See https://stripe.com/docs/declines/codes
-                    } else {
+                Payment::where('payment_intent', $paymentIntent->id)->update([
+                    'payment_status' => Payment::STATUS_CANCELED,
+                    'payment_error' => $message,
+                ]);
 
-                    }
+                // See https://stripe.com/docs/error-codes
+                if($paymentIntent->last_payment_error->code === 'card_declined') {
+                    // See https://stripe.com/docs/declines/codes
+                } else {
 
-                    $message = $paymentIntent->last_payment_error->message;
-
-                    $payment = Payment::updateOrCreate([
-                        'id' => $payment->id,
-                    ], [
-                        'payment_status' => Payment::STATUS_CANCELED,
-                        'payment_error' => $message,
-                    ]);
                 }
 
                 return new Response($message, 400, []);

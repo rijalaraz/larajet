@@ -47,12 +47,11 @@ class StripeCheckoutController extends Controller
             /** @var Order $order */
             $payment = $order->payment()->create([
                 'amount' =>  $cartTotal,
-                'currency' => 'eur',
-                'payment_intent' => $paymentIntent->client_secret,
+                'currency' => 'EUR',
+                'payment_intent' => $paymentIntent->id,
                 'payment_status' => Payment::STATUS_WAITING,
             ]);
 
-            /*
             (new CartRepository())
                 ->content()
                 ->each(function($product) use($order) {
@@ -61,7 +60,8 @@ class StripeCheckoutController extends Controller
                         'total_quantity' => $product->quantity,
                     ]);
                 });
-            */
+
+            (new CartRepository())->clear();
 
             $output = [
                 'clientSecret' => $paymentIntent->client_secret,
