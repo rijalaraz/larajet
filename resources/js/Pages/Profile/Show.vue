@@ -6,15 +6,23 @@ import LogoutOtherBrowserSessionsForm from '@/Pages/Profile/Partials/LogoutOther
 import TwoFactorAuthenticationForm from '@/Pages/Profile/Partials/TwoFactorAuthenticationForm.vue';
 import UpdatePasswordForm from '@/Pages/Profile/Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from '@/Pages/Profile/Partials/UpdateProfileInformationForm.vue';
+import useProduct from '../../composables/products';
+import { onMounted } from "vue";
 
 defineProps({
     confirmsTwoFactorAuthentication: Boolean,
     sessions: Array,
 });
+
+const { cartCount, getCount } = useProduct();
+
+onMounted(async () => {
+  await getCount();
+});
 </script>
 
 <template>
-    <AppLayout title="Profile">
+    <AppLayout title="Profile" :count-cart="cartCount">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Profile
