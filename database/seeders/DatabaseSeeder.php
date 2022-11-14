@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::factory()
+            ->withPersonalTeam()
+            // ->unverified()
             ->count(10)
             ->has(
                 Order::factory()
