@@ -8,6 +8,8 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Database\Factories\UserFactory;
+use Database\Factories\OrderFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,12 +20,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()
+        UserFactory::new()
             ->withPersonalTeam()
             // ->unverified()
             ->count(10)
             ->has(
-                Order::factory()
+                OrderFactory::new()
                     ->count(3)
                     ->hasAttached(
                         Product::factory()->count(5), [
